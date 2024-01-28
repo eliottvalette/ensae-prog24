@@ -1,8 +1,6 @@
 """
 This is the graph module. It contains a minimalistic Graph class.
 
-Ceci est un test dans graph.py
-
 """
 
 class Graph:
