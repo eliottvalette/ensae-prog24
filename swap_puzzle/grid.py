@@ -57,8 +57,13 @@ class Grid():
         """
         Checks is the current state of the grid is sorte and returns the answer as a boolean.
         """
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
+        for i in range(self.m):
+            for j in range(self.n):
+                if self.state[i][j] != (i * self.n + j) + 1: 
+                    # On multiplie i par n pour passer à la ligne suivante et +1 car on commence à 1 et non pas à 0
+                    return False
+        return True
+
 
     def swap(self, cell1, cell2):
         """
@@ -67,10 +72,20 @@ class Grid():
         Parameters: 
         -----------
         cell1, cell2: tuple[int]
-            The two cells to swap. They must be in the format (i, j) where i is the line and j the column number of the cell. 
+            The two cells to swap. They must be in the format (i, j) where i is the line and j the column number of the cell.
+
+        Lets remain in line with the notations on page 3 
         """
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
+        i1, j1 = cell1
+        i2, j2 = cell2
+        
+        "Verification that every coordinates are integers between the grid limits"
+        if not (0 <= i1 < self.m and 0 <= j1 < self.n and 0 <= i2 < self.m and 0 <= j2 < self.n):
+            raise ValueError("Invalid cell coordinates for swap")
+
+        "Simultaneous inversion"
+        self.state[i1][j1], self.state[i2][j2] = self.state[i2][j2], self.state[i1][j1]
+
 
     def swap_seq(self, cell_pair_list):
         """
@@ -82,8 +97,8 @@ class Grid():
             List of swaps, each swap being a tuple of two cells (each cell being a tuple of integers). 
             So the format should be [((i1, j1), (i2, j2)), ((i1', j1'), (i2', j2')), ...].
         """
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
+        for swap_pair in cell_pair_list:
+            self.swap(swap_pair[0], swap_pair[1])
 
     @classmethod
     def grid_from_file(cls, file_name): 

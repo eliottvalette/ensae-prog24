@@ -1,16 +1,24 @@
 from grid import Grid
 
 class Solver(): 
-    """
-    A solver class, to be implemented.
-    """
     
-    def get_solution(self):
-        """
-        Solves the grid and returns the sequence of swaps at the format 
-        [((i1, j1), (i2, j2)), ((i1', j1'), (i2', j2')), ...]. 
-        """
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        # NOTE: you can add other methods and subclasses as much as necessary. The only thing imposed is the format of the solution returned.
-        raise NotImplementedError
+    def get_solution(self, grid):
+        swaps_sequence = []
+        for i in range(grid.m):
+            for j in range(grid.n):
+                for i_swap in range(i, grid.m):
+                    start_j = j if i_swap == i else 0
+                    for j_swap in range(start_j, grid.n):
+                        if grid.state[i_swap][j_swap] == i_swap * grid.n + j_swap + 1:
+                            continue  # Cellule déjà à la bonne position
+                            
+                        swaps_sequence.append(((i, j), (i_swap, j_swap)))
+                        grid.swap((i, j), (i_swap, j_swap))
+                        
+        return swaps_sequence
+
+                        
+
+
+
 
