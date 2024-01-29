@@ -1,6 +1,7 @@
 """
 This is the graph module. It contains a minimalistic Graph class.
 
+This is a test
 """
 
 class Graph:
