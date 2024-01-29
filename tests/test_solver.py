@@ -1,18 +1,18 @@
 # This will work if ran from the root folder ensae-prog24
-import sys 
+import sys
 sys.path.append("swap_puzzle/")
-# Importez la classe Grid et la classe Solver
+
+import unittest
 from grid import Grid
-from solver import Solver  # Assurez-vous que le nom du fichier est correct
+from solver import Solver
 
-# Créez une instance de la classe Grid à partir d'un fichier d'entrée
-grid = Grid.grid_from_file("input/grid1.in")
+class Test_GetSolution(unittest.TestCase):
+    def test_grid1(self):
+        grid = Grid.grid_from_file("input/grid1.in")
+        solver = Solver(grid.m,grid.n,grid.state)
+        solution = solver.get_solution()
+        grid.swap_seq(solution)
+        self.assertEqual(grid.is_sorted(), True)
 
-# Créez une instance de la classe Solver
-solver = Solver()
-
-# Appelez la méthode get_solution avec la grille en tant qu'argument
-solution = solver.get_solution(grid)
-
-# Affichez la solution
-print("Solution obtenue:", solution)
+if __name__ == '__main__':
+    unittest.main()
