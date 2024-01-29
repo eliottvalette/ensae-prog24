@@ -59,7 +59,7 @@ class Grid():
         """
         for i in range(self.m):
             for j in range(self.n):
-                if self.state[i][j] != (i * self.n + j) + 1: 
+                if self.state[i][j] != (i * self.n + j) + 1:
                     # On multiplie i par n pour passer à la ligne suivante et +1 car on commence à 1 et non pas à 0
                     return False
         return True
@@ -127,5 +127,3 @@ class Grid():
                 initial_state[i_line] = line_state
             grid = Grid(m, n, initial_state)
         return grid
-
-
