@@ -79,12 +79,12 @@ class Grid():
         i1, j1 = cell1
         i2, j2 = cell2
         
-        "Verification that every coordinates are integers between the grid limits"
-        if not (0 <= i1 < self.m and 0 <= j1 < self.n and 0 <= i2 < self.m and 0 <= j2 < self.n):
+        "Verification that swap is allowed"
+        if (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2) and j1==j2) :
+            "Simultaneous inversion"
+            self.state[i1][j1], self.state[i2][j2] = self.state[i2][j2], self.state[i1][j1]
+        else :    
             raise ValueError("Invalid cell coordinates for swap")
-
-        "Simultaneous inversion"
-        self.state[i1][j1], self.state[i2][j2] = self.state[i2][j2], self.state[i1][j1]
 
 
     def swap_seq(self, cell_pair_list):
