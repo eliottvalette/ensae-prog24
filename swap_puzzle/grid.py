@@ -55,7 +55,7 @@ class Grid():
 
     def is_sorted(self):
         """
-        Checks is the current state of the grid is sorte and returns the answer as a boolean.
+        Checks is the current state of the grid is sorted and returns the answer as a boolean.
         """
         for i in range(self.m):
             for j in range(self.n):
