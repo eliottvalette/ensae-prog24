@@ -80,7 +80,7 @@ class Grid():
         i2, j2 = cell2
         
         "Verification that swap is allowed"
-        if (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2) and j1==j2) :
+        if (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2)==1 and j1==j2) :
             "Simultaneous inversion"
             self.state[i1][j1], self.state[i2][j2] = self.state[i2][j2], self.state[i1][j1]
         else :    
