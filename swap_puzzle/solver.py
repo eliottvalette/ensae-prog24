@@ -1,6 +1,8 @@
 # This is the solver module. It contains the Solver class and its associated methods.
 from grid import Grid
 
+swap_count=0
+
 class Solver(): 
     def __init__(self, m, n, initial_state):
         self.grid = Grid(m, n, initial_state)
