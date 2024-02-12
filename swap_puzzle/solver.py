@@ -1,8 +1,7 @@
 # This is the solver module. It contains the Solver class and its associated methods.
 from grid import Grid
 
-swap_count=0
-
+sequence_swaps=[]
 class Solver(): 
     def __init__(self, m, n, initial_state):
         self.grid = Grid(m, n, initial_state)
@@ -22,14 +21,17 @@ class Solver():
         while j != j_target: # On se place dans la meme colonne que la place objectif
             if j_target < j:
                 for k in range(j - j_target):
+                    sequence_swaps.append(((i, j), (i, j - 1)))
                     self.grid.swap((i, j), (i, j - 1))
                     j = j - 1
             else:
                 for k in range(j_target - j):
+                    sequence_swaps.append(((i, j), (i, j + 1)))
                     self.grid.swap((i, j), (i, j + 1))
                     j = j + 1
         while i != i_target: # On remonte dorit vers l'objectif pour ne pas déranger ce qui a été fait
             for k in range(i - i_target):
+                sequence_swaps.append(((i, j), (i - 1, j)))
                 self.grid.swap((i, j), (i - 1, j))
                 i = i - 1
 
@@ -41,7 +43,9 @@ class Solver():
     def get_solution(self):
         for x in range(1, self.m * self.n + 1):
             self.drag_x(x)
+        return sequence_swaps
 
 grid = Grid.grid_from_file("input/grid4.in")
 solver = Solver(grid.m, grid.n, grid.state)
-solver.get_solution()
+print(solver.get_solution())
+
