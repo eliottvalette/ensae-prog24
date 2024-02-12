@@ -16,5 +16,10 @@ print(g)
 graph_file_name = data_path + "graph1.in"
 graph = Graph.graph_from_file(graph_file_name)
 
-print(graph.nodes)
 print(graph)
+
+src = 2
+dst = 7
+shortest_path = graph.bfs(src, dst)
+
+print(f"{src} {dst} {len(shortest_path)-1} {shortest_path}")

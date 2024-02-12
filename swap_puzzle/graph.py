@@ -4,6 +4,8 @@ This is the graph module. It contains a minimalistic Graph class.
 This is a test
 """
 
+from collections import deque
+
 class Graph:
     """
     A class representing undirected graphs as adjacency lists. 
@@ -99,8 +101,31 @@ class Graph:
         path: list[NodeType] | None
             The shortest path from src to dst. Returns None if dst is not reachable from src
         """ 
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
+
+
+        visited = set()
+        queue = [[src]]
+        print(f"\n queue : {queue} \n")
+        i=0
+        
+        while queue:
+            path = queue.pop(0)
+            node = path[-1]
+            
+            if node == dst:
+                return path
+            
+            if node not in visited:
+                neighbors = self.graph[node]
+                for neighbor in neighbors:
+                    new_path = list(path)
+                    new_path.append(neighbor)
+                    queue.append(new_path)
+                    
+                visited.add(node)
+                
+        
+        return None
 
     @classmethod
     def graph_from_file(cls, file_name):
