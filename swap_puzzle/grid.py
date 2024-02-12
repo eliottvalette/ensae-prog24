@@ -3,7 +3,8 @@ This is the grid module. It contains the Grid class and its associated methods.
 """
 
 import random
-from itertools import product
+import numpy as np
+from itertools import permutations
 
 class Grid():
     """
@@ -100,6 +101,43 @@ class Grid():
         """
         for swap_pair in cell_pair_list:
             self.swap(swap_pair[0], swap_pair[1])
+    
+    def get_nodes(self):
+        m,n = self.m,self.n
+
+        numbers = range(1, m * n + 1)
+        all_permutations = [list(row) for row in permutations(numbers)]
+        print(all_permutations)
+        list_matrix=[]
+        for permutation in all_permutations:
+            current_matrix=list()
+            for i in range(m):
+                current_matrix.append(permutation[n*i:n*(i+1)])
+            list_matrix.append((current_matrix))
+        dict_nodes={}
+        for k in range(len(list_matrix)):
+            dict_nodes[k+1]=list_matrix[k]
+        return dict_nodes
+    
+    def are_neighbours(self,initial,friend):
+        for i in range(self.m):
+            for j in range(self.n-1):
+                if initial==friend.swap((i,j),(i,j+1)):
+                    return ((i,j),(i,j+1))
+                
+        for i in range(self.m-1):
+            for j in range(self.n):
+                if initial==friend.swap((i,j),(i+1,j)):
+                    return ((i,j),(i+1,j))
+        return False
+
+    def get_neighbours(self,initial):
+        nodes=self.get_nodes()
+        neighbours=[]
+        for node in nodes:
+            if self.are_neighbours(initial,node) and node!= initial:
+                neighbours.append(node)
+        return neighbours
 
     @classmethod
     def grid_from_file(cls, file_name): 
