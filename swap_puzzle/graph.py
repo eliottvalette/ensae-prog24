@@ -105,8 +105,6 @@ class Graph:
 
         visited = set()
         queue = [[src]]
-        print(f"\n queue : {queue} \n")
-        i=0
         
         while queue:
             path = queue.pop(0)
