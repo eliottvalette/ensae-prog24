@@ -4,7 +4,9 @@ This is the grid module. It contains the Grid class and its associated methods.
 
 import random
 import numpy as np
+import copy
 from itertools import permutations
+from graph import Graph
 
 class Grid():
     """
@@ -44,7 +46,7 @@ class Grid():
         """
         Prints the state of the grid as text.
         """
-        output = f"The grid is in the following state:\n"
+        output = "The grid is in the following state:\n"
         for i in range(self.m): 
             output += f"{self.state[i]}\n"
         return output
@@ -88,7 +90,6 @@ class Grid():
         else :    
             raise ValueError("Invalid swap")
 
-
     def swap_seq(self, cell_pair_list):
         """
         Executes a sequence of swaps. 
@@ -102,42 +103,146 @@ class Grid():
         for swap_pair in cell_pair_list:
             self.swap(swap_pair[0], swap_pair[1])
     
-    def get_nodes(self):
-        m,n = self.m,self.n
+    # def get_nodes(self):
+    #     m,n = self.m,self.n
 
-        numbers = range(1, m * n + 1)
-        all_permutations = [list(row) for row in permutations(numbers)]
-        print(all_permutations)
-        list_matrix=[]
-        for permutation in all_permutations:
-            current_matrix=list()
-            for i in range(m):
-                current_matrix.append(permutation[n*i:n*(i+1)])
-            list_matrix.append((current_matrix))
-        dict_nodes={}
-        for k in range(len(list_matrix)):
-            dict_nodes[k+1]=list_matrix[k]
-        return dict_nodes
+    #     numbers = range(1, m * n + 1)
+    #     all_permutations = [list(row) for row in permutations(numbers)]
+    #     list_matrix=[]
+    #     for permutation in all_permutations:
+    #         current_matrix=list()
+    #         for i in range(m):
+    #             current_matrix.append(permutation[n*i:n*(i+1)])
+    #         list_matrix.append((current_matrix))
+    #     dict_nodes={}
+    #     for k in range(len(list_matrix)):
+    #         dict_nodes[k+1]=list_matrix[k]
+    #     return dict_nodes
     
-    def are_neighbours(self,initial,friend):
-        for i in range(self.m):
-            for j in range(self.n-1):
-                if initial==friend.swap((i,j),(i,j+1)):
-                    return ((i,j),(i,j+1))
+    # def are_neighbours(self,initial,friend):
+    #     for i in range(self.m):
+    #         for j in range(self.n-1):
+    #             if initial==self.swap_2(friend,(i,j),(i,j+1)):
+    #                 return True
                 
-        for i in range(self.m-1):
-            for j in range(self.n):
-                if initial==friend.swap((i,j),(i+1,j)):
-                    return ((i,j),(i+1,j))
-        return False
+    #     for i in range(self.m-1):
+    #         for j in range(self.n):
+    #             if initial==self.swap_2(friend, (i,j),(i+1,j)):
+    #                 return True
+    #     return False
 
-    def get_neighbours(self,initial):
-        nodes=self.get_nodes()
-        neighbours=[]
-        for node in nodes:
-            if self.are_neighbours(initial,node) and node!= initial:
-                neighbours.append(node)
-        return neighbours
+    # def get_neighbours(self):
+    #     nodes=self.get_nodes()
+    #     neighbours=[]
+    #     for node_key in nodes:
+    #         if self.are_neighbours(self.state, nodes[node_key]) and nodes[node_key] != self.state:
+    #             neighbours.append(nodes[node_key])
+    #     print(len(neighbours))
+    #     return neighbours
+    
+    @classmethod
+    def permu(cls,n):
+        """
+        Generate all the possible permutations from 1 to n
+
+        Parameters: 
+        -----------
+        n: int
+            Length of the list.
+
+        Output: 
+        -------
+        perm: list[list]
+            The list of all the permutations of the initial list.
+        """
+        L = list(range(1,n+1))
+        perm = list(permutations(L))
+        return perm
+    
+    """
+    Sans utiliser itertool :
+    @classmethod
+    def perm(cls, lst):
+        if len(lst) == 0:
+            return [[]]
+        perm_lst = []
+        for i in range(len(lst)):
+            current = lst[i]
+            remaining = lst[:i] + lst[i+1:]
+            for p in Grid.perm(remaining):
+                perm_lst.append([current] + p)
+        return perm_lst
+    """
+
+    def grid_as_tuple(self):
+        """
+        Renvoie l'état d'une grille sous la forme d'un tuple
+        """
+        T = []
+        for k in range(len(self.state)):
+            T.append(tuple(self.state[k]))
+        T = tuple(T)
+        return T
+    
+    def copy(self):
+        """
+        Retourne une copie d'une grille, liée à une liste indépendante
+        """
+        return Grid(self.m,self.n,copy.deepcopy(self.state))
+
+    def all_state_grid(self):
+        """
+        Renvoie tous les états de la grilles possibles comme une liste de noeuds
+        (tuples de tuples qui correspondent à toutes les grilles possibles)
+        """
+        nodes = []
+        L = Grid.permu(self.n*self.m)
+        for i in L :
+            node = []
+            grid = list(i)
+            for k in range(self.m):
+                node.append(grid[self.n*k:(k+1)*self.n])
+            # Converts the node from a list of lists to a tuple of tuples
+            for k in range(len(node)):
+                node[k] = tuple(node[k])
+            node = tuple(node)
+            nodes.append(node)
+        return nodes
+    
+    def graph_from_grid(self):
+        """
+        Renvoie le graphe à partir d'une grille,
+        c'est-à-dire tous les états de la grilles possibles (sous forme de tuples de tuples)
+        avec toutes les liaisons posssibles correspondant aux swaps possibles
+        """
+        nodes = self.all_state_grid()
+        graph_grid = Graph(nodes)
+        for grid_tuple in nodes :
+
+            # On convertit le tuple en liste
+            grid_list = [[] for k in range(len(grid_tuple))]
+            for i in range(len(grid_tuple)):
+                for j in range(len(grid_tuple[i])):
+                    grid_list[i].append(grid_tuple[i][j])
+
+            # On crée la grille à partir de la liste
+            grid = Grid(len(grid_list),len(grid_list[0]),grid_list)
+
+            # On fait tous les swaps horizontaux et on ajoute les edges
+            for i in range(grid.n-1):
+                for j in range(grid.m):
+                    grid2 = grid.copy()
+                    grid2.swap((j,i),(j,i+1))
+                    graph_grid.add_edge(grid.grid_as_tuple(),grid2.grid_as_tuple())
+
+            # On fait tous les swaps verticaux on ajoute les edges
+            for i in range(grid.m-1):
+                for j in range(grid.n):
+                    grid2 = grid.copy()
+                    grid2.swap((i,j),(i+1,j))
+                    graph_grid.add_edge(grid.grid_as_tuple(),grid2.grid_as_tuple())
+
+        return graph_grid
 
     @classmethod
     def grid_from_file(cls, file_name): 
@@ -166,3 +271,37 @@ class Grid():
                 initial_state[i_line] = line_state
             grid = Grid(m, n, initial_state)
         return grid
+    
+    def adjacent_grids(self):
+        
+        """
+        Generate all possible grids resulting from a swap operated on the initial grid
+
+        Parameters: 
+        -----------
+        grid: Grid
+            The initial grid
+
+        Output: 
+        -------
+        grid_lst: list[tuple]
+            The list of all possible grids (as tuple of tuples) resulting from a swap operated on the initial grid and the corresponding swap
+        """
+
+        grid_lst = []
+
+        # On fait tous les swaps horizontaux et on ajoute les edges
+        for i in range(self.n-1):
+            for j in range(self.m):
+                other = self.copy()
+                other.swap((j,i),(j,i+1))
+                grid_lst.append((other.grid_as_tuple(),((j,i),(j,i+1))))
+
+        # On fait tous les swaps verticaux on ajoute les edges
+        for i in range(self.m-1):
+            for j in range(self.n):
+                other = self.copy()
+                other.swap((i,j),(i+1,j))
+                grid_lst.append((other.grid_as_tuple(),((i,j),(i+1,j))))
+        
+        return grid_lst

@@ -1,28 +1,25 @@
 from grid import Grid
-from graph import Graph
-
-g = Grid(2, 3)
-print(g)
-
-data_path = "input/"
-file_name = data_path + "grid0.in"
-
-print(file_name)
-
-g = Grid.grid_from_file(file_name)
-print(g)
-print(g)
-print(f"\n {g.get_nodes()} \n")
-print(f"\n {g.get_neighbours(g)} \n")
+from solver import Solver
+import time 
 
 
-graph_file_name = data_path + "graph1.in"
-graph = Graph.graph_from_file(graph_file_name)
+g = Grid(4,4,[[16,14,3,10],[4,5,6,11],[7,15,8,12],[13,2,9,1]])
+#On vérifie que la fenêtre graphique s'affiche bien
 
-#print(f"\n {graph} \n")
+#g.graphique()
 
-src = 2
-dst = 7
-shortest_path = graph.bfs(src, dst)
+t0 = time.time()
+print(Solver.get_solution(g))
+t1 = time.time()
+print(t1-t0)
+#print(Solver.get_solution_BFS_op(g))
+t2 = time.time()
+print(t2-t1)
+print(Solver.get_solution_A_star(g))
+t3 = time.time()
+print(t3-t2)
 
-#print(f"{src} {dst} {len(shortest_path)-1} {shortest_path}")
+g = Grid.grid_from_file("input/grid3.in")
+print(Solver.get_solution_A_star(g))
+print(Solver.get_solution_BFS_op(g))
+
