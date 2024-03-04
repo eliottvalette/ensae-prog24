@@ -102,41 +102,41 @@ class Grid():
         for swap_pair in cell_pair_list:
             self.swap(swap_pair[0], swap_pair[1])
     
-    # def get_nodes(self):
-    #     m,n = self.m,self.n
-    #     all_permutations = [list(row) for row in permutations(numbers)]
-    #     list_matrix=[]
-    #     for permutation in all_permutations:
-    #         numbers = range(1, m * n + 1)
-    #             current_matrix=list()
-    #             for i in range(m):
-    #                 current_matrix.append(permutation[n*i:n*(i+1)])
-    #             list_matrix.append((current_matrix))
-    #     dict_nodes={}
-    #     for k in range(len(list_matrix)):
-    #         dict_nodes[k+1]=list_matrix[k]
-    #     return dict_nodes
-    
-    # def are_neighbours(self,initial,friend):
-    #     for i in range(self.m):
-    #         for j in range(self.n-1):
-    #             if initial==self.swap_2(friend,(i,j),(i,j+1)):
-    #                 return True
-                
-    #     for i in range(self.m-1):
-    #         for j in range(self.n):
-    #             if initial==self.swap_2(friend, (i,j),(i+1,j)):
-    #                 return True
-    #     return False
+    def get_nodes(self):
+        m,n = self.m,self.n
 
-    # def get_neighbours(self):
-    #     nodes=self.get_nodes()
-    #     neighbours=[]
-    #     for node_key in nodes:
-    #         if self.are_neighbours(self.state, nodes[node_key]) and nodes[node_key] != self.state:
-    #             neighbours.append(nodes[node_key])
-    #     print(len(neighbours))
-    #     return neighbours
+        numbers = range(1, m * n + 1)
+        all_permutations = [list(row) for row in permutations(numbers)]
+        list_matrix=[]
+        for permutation in all_permutations:
+            current_matrix=list()
+            for i in range(m):
+                current_matrix.append(permutation[n*i:n*(i+1)])
+            list_matrix.append((current_matrix))
+        dict_nodes={}
+        for k in range(len(list_matrix)):
+            dict_nodes[k+1]=list_matrix[k]
+        return dict_nodes
+    
+    def are_neighbours(self,initial,friend):
+        for i in range(self.m):
+            for j in range(self.n-1):
+                if initial==self.swap_2(friend,(i,j),(i,j+1)):
+                    return True
+          
+        for i in range(self.m-1):
+            for j in range(self.n):
+                if initial==self.swap_2(friend, (i,j),(i+1,j)):
+                    return True
+    
+    def get_neighbours(self):
+        nodes=self.get_nodes()
+        neighbours=[]
+        for node_key in nodes:
+            if self.are_neighbours(self.state, nodes[node_key]) and nodes[node_key] != self.state:
+                neighbours.append(nodes[node_key])
+        print(len(neighbours))
+        return neighbours
     
     def permu(self,n):
         """
