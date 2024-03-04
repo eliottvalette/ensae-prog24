@@ -102,7 +102,6 @@ class Graph:
             The shortest path from src to dst. Returns None if dst is not reachable from src
         """ 
 
-
         visited = set()
         queue = [[src]]
         
@@ -119,9 +118,7 @@ class Graph:
                     new_path = list(path)
                     new_path.append(neighbor)
                     queue.append(new_path)
-                    
-                visited.add(node)
-                
+                visited.add(node)    
         
         return None
 

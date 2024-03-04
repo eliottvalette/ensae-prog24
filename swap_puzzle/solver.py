@@ -1,6 +1,5 @@
 # This is the solver module. It contains the Solver class and its associated methods.
 from grid import Grid
-from grid import Grid
 
 sequence_swaps=[] #global variable
 class Solver(): 
@@ -76,53 +75,6 @@ class Solver():
             The list of the differents grid's states leading to its solved state.
         """
         return grid.graph_from_grid().bfs(grid.grid_as_tuple(),Grid(grid.m,grid.n).grid_as_tuple())
-
-    def get_solution_BFS_op(self,grid:Grid):
-        """
-        Solves the grid using a specific BFS algorithm that visits only the necessary part of the graph.
-
-        Parameters: 
-        -----------
-        grid: Grid
-            The grid to solve
-
-        Output: 
-        -------
-        path: list[tuple]
-            The path of swaps leading to the sorting the intial grid.
-        """
-
-        Solution = Grid(grid.m, grid.n).grid_as_tuple()
-        Queue = [grid.grid_as_tuple()]
-        Visited = []
-        Parent = dict()
-        Found = False
-
-        while Queue != [] and not(Found) :
-            Current_grid = Queue.pop(0)
-            if Current_grid not in Visited:
-                Visited.append(Current_grid)
-                
-                # On crée une liste de liste à partir du tuple de tuple
-                L = []
-                for k in Current_grid:
-                    L.append(list(k))
-                
-                Next_grids = Grid(len(L),len(L[0]),L).adjacent_grids()
-                
-                for (N,swap) in Next_grids:
-                    if N not in Parent.keys():
-                        Parent[N] = (Current_grid,swap)
-                        Queue.append(N)
-                    if N == Solution:
-                        Found = True
-        path = []
-        N = Solution
-        while N != grid.grid_as_tuple():
-            N,swap = Parent[N]
-            path.append(swap)
-        path.reverse()
-        return path
     
 
 

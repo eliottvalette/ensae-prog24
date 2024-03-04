@@ -68,7 +68,6 @@ class Grid():
                     return False
         return True
 
-
     def swap(self, cell1, cell2):
         """
         Implements the swap operation between two cells. Raises an exception if the swap is not allowed.
@@ -105,15 +104,14 @@ class Grid():
     
     # def get_nodes(self):
     #     m,n = self.m,self.n
-
-    #     numbers = range(1, m * n + 1)
     #     all_permutations = [list(row) for row in permutations(numbers)]
     #     list_matrix=[]
     #     for permutation in all_permutations:
-    #         current_matrix=list()
-    #         for i in range(m):
-    #             current_matrix.append(permutation[n*i:n*(i+1)])
-    #         list_matrix.append((current_matrix))
+    #         numbers = range(1, m * n + 1)
+    #             current_matrix=list()
+    #             for i in range(m):
+    #                 current_matrix.append(permutation[n*i:n*(i+1)])
+    #             list_matrix.append((current_matrix))
     #     dict_nodes={}
     #     for k in range(len(list_matrix)):
     #         dict_nodes[k+1]=list_matrix[k]
@@ -180,7 +178,8 @@ class Grid():
         (tuples de tuples qui correspondent à toutes les grilles possibles)
         """
         nodes = []
-        L = Grid.permu(self.n*self.m)
+        n=self.n*self.m
+        L = Grid.permu(n)
         for i in L :
             node = []
             grid = list(i)
