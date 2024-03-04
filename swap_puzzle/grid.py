@@ -140,8 +140,7 @@ class Grid():
     #     print(len(neighbours))
     #     return neighbours
     
-    @classmethod
-    def permu(cls,n):
+    def permu(self,n):
         """
         Generate all the possible permutations from 1 to n
 
@@ -158,21 +157,6 @@ class Grid():
         L = list(range(1,n+1))
         perm = list(permutations(L))
         return perm
-    
-    """
-    Sans utiliser itertool :
-    @classmethod
-    def perm(cls, lst):
-        if len(lst) == 0:
-            return [[]]
-        perm_lst = []
-        for i in range(len(lst)):
-            current = lst[i]
-            remaining = lst[:i] + lst[i+1:]
-            for p in Grid.perm(remaining):
-                perm_lst.append([current] + p)
-        return perm_lst
-    """
 
     def grid_as_tuple(self):
         """
@@ -207,6 +191,7 @@ class Grid():
                 node[k] = tuple(node[k])
             node = tuple(node)
             nodes.append(node)
+        print("nodes : " + str(nodes))
         return nodes
     
     def graph_from_grid(self):

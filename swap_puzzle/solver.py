@@ -61,8 +61,7 @@ class Solver():
             self.drag_x(x)
         return sequence_swaps
     
-    @classmethod
-    def get_solution_bfs(cls, g:Grid):
+    def get_solution_bfs(self, grid:Grid):
         """
         Solves the grid using the BFS algorithm.
 
@@ -76,10 +75,9 @@ class Solver():
         list[tuple]
             The list of the differents grid's states leading to its solved state.
         """
-        return g.graph_from_grid().bfs(g.grid_as_tuple(),Grid(g.m,g.n).grid_as_tuple())
-    
-    @staticmethod
-    def get_solution_BFS_op(grid):
+        return grid.graph_from_grid().bfs(grid.grid_as_tuple(),Grid(grid.m,grid.n).grid_as_tuple())
+
+    def get_solution_BFS_op(self,grid:Grid):
         """
         Solves the grid using a specific BFS algorithm that visits only the necessary part of the graph.
 
