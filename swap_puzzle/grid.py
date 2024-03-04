@@ -88,6 +88,28 @@ class Grid():
             self.state[i1][j1], self.state[i2][j2] = self.state[i2][j2], self.state[i1][j1]
         else :    
             raise ValueError("Invalid swap")
+        
+    def swap_2(self, grid, cell1, cell2):
+        """
+        Implements the swap operation between two cells. Raises an exception if the swap is not allowed.
+
+        Parameters: 
+        -----------
+        cell1, cell2: tuple[int]
+            The two cells to swap. They must be in the format (i, j) where i is the line and j the column number of the cell.
+
+        Lets remain in line with the notations on page 3 
+        """
+        i1, j1 = cell1
+        i2, j2 = cell2
+        
+        # Verification that swap is allowed
+        if (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2)==1 and j1==j2) :
+            # Simultaneous inversion
+            grid[i1][j1], grid[i2][j2] = grid[i2][j2], grid[i1][j1]
+            return grid
+        else :    
+            raise ValueError("Invalid swap")
 
     def swap_seq(self, cell_pair_list):
         """
@@ -128,6 +150,7 @@ class Grid():
             for j in range(self.n):
                 if initial==self.swap_2(friend, (i,j),(i+1,j)):
                     return True
+        return False
     
     def get_neighbours(self):
         nodes=self.get_nodes()
@@ -153,8 +176,8 @@ class Grid():
             The list of all the permutations of the initial list.
         """
         L = list(range(1,n+1))
-        perm = list(permutations(L))
-        return perm
+        permutations = list(permutations(L))
+        return permutations
 
     def grid_as_tuple(self):
         """
@@ -204,13 +227,13 @@ class Grid():
         for grid_tuple in nodes :
 
             # On convertit le tuple en liste
-            grid_list = [[] for k in range(len(grid_tuple))]
+            grid_list = []
             for i in range(len(grid_tuple)):
                 for j in range(len(grid_tuple[i])):
                     grid_list[i].append(grid_tuple[i][j])
 
             # On crée la grille à partir de la liste
-            grid = Grid(len(grid_list),len(grid_list[0]),grid_list)
+            grid = Grid(len(grid_list[1]),len(grid_list[0]),grid_list)
 
             # On fait tous les swaps horizontaux et on ajoute les edges
             for i in range(grid.n-1):
