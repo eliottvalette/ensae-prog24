@@ -4,8 +4,6 @@ This is the graph module. It contains a minimalistic Graph class.
 This is a test
 """
 
-from collections import deque
-
 class Graph:
     """
     A class representing undirected graphs as adjacency lists. 
@@ -121,6 +119,8 @@ class Graph:
                 visited.add(node)    
         
         return None
+    
+    
 
     @classmethod
     def graph_from_file(cls, file_name):

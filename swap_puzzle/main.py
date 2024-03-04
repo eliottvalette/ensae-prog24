@@ -28,4 +28,3 @@ graph_from_grid = grid.generate_graph()
 print("Graph:", graph_from_grid)
 shortest_path_grid = graph_from_grid.bfs(current_state_key, 1)
 print("Shortest path from node", current_state_key, "to node", 1, ":", shortest_path_grid)
-

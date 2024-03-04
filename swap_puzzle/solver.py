@@ -60,21 +60,21 @@ class Solver():
             self.drag_x(x)
         return sequence_swaps
     
-    def get_solution_bfs(self, grid:Grid):
-        """
-        Solves the grid using the BFS algorithm.
-
-        Parameters: 
-        -----------
-        g: Grid
-            The grid to solve.
-
-        Output: 
-        -------
-        list[tuple]
-            The list of the differents grid's states leading to its solved state.
-        """
-        return grid.graph_from_grid().bfs(grid.grid_as_tuple(),Grid(grid.m,grid.n).grid_as_tuple())
+    # def bfs_opti(self, src, dst):
+    #     visited = set()
+    #     queue = [[src]]
+        
+    #     while queue:
+    #         node, path = queue.pop(-1)
+    #         if node == dst:
+    #             return path
+    #         if node not in visited:
+    #             visited.add(node)
+    #             # Générer les voisins du nœud actuel
+    #             neighbours = list(self.grid.get_neighbours(node).values())
+    #             for neighbour in neighbours:
+    #                 queue.append((neighbour, path + [neighbour]))
+    #     return None
     
 
 # grid = Grid.grid_from_file("input/grid4.in")
