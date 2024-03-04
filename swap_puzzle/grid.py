@@ -99,12 +99,14 @@ class Grid():
         """
         i1, j1 = cell1
         i2, j2 = cell2
+
+        grid_copy=copy.deepcopy(grid)
         
         # Verification that swap is allowed
         if (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2)==1 and j1==j2) :
             # Simultaneous inversion
-            grid[i1][j1], grid[i2][j2] = grid[i2][j2], grid[i1][j1]
-            return grid
+            grid_copy[i1][j1], grid_copy[i2][j2] = grid_copy[i2][j2], grid_copy[i1][j1]
+            return grid_copy
         else :    
             raise ValueError("Invalid swap")
 
@@ -149,13 +151,16 @@ class Grid():
                     return True
         return False
     
-    def get_neighbours(self,grid):
+    def get_neighbours(self):
         nodes = self.get_nodes()
-        current_permutation = grid
+        current_permutation = self.state
+        print("current_permutation : ")
+        print(current_permutation)
         neighbours = []
 
         for node_key, node_permutation in nodes.items():
-            if self.are_neighbours(list(current_permutation), node_permutation):
+            node_copy = copy.deepcopy(node_permutation)
+            if node_permutation !=(current_permutation) and self.are_neighbours(current_permutation, node_copy):
                 neighbours.append(node_permutation)
 
         return neighbours

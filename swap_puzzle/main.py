@@ -16,7 +16,7 @@ shortest_path = graph.bfs(src_node, dst_node)
 print("Shortest path from node", src_node, "to node", dst_node, ":", shortest_path)
 
 print("\n\nTest des méthodes dans la classe Grid\n")
-grid_file_name = "input/grid0.in"
+grid_file_name = "input/grid4.in"
 grid = Grid.grid_from_file(grid_file_name)
 print(grid.state)
 dst_node = Grid(2, 2).grid_as_tuple()
