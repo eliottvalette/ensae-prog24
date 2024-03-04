@@ -77,7 +77,7 @@ class Solver():
         return grid.graph_from_grid().bfs(grid.grid_as_tuple(),Grid(grid.m,grid.n).grid_as_tuple())
     
 
-grid = Grid.grid_from_file("input/grid4.in")
-solver = Solver(grid.m, grid.n, grid.state)
-print(solver.get_solution())
+# grid = Grid.grid_from_file("input/grid4.in")
+# solver = Solver(grid.m, grid.n, grid.state)
+# print(solver.get_solution())
 

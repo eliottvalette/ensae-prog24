@@ -11,16 +11,16 @@ import time
 # t1 = time.time()
 # print(t1-t0)
 
-# Test de la méthode bfs dans la classe Graph
+print("\n\nTest de la méthode bfs dans la classe Graph")
 graph_file_name = "input/graph1.in"
 graph = Graph.graph_from_file(graph_file_name)
 print("Graph:", graph)
-src_node = 1
-dst_node = 5
+src_node = 2
+dst_node = 7
 shortest_path = graph.bfs(src_node, dst_node)
 print("Shortest path from node", src_node, "to node", dst_node, ":", shortest_path)
 
-# Test des méthodes dans la classe Grid
+print("\n\nTest des méthodes dans la classe Grid")
 grid_file_name = "input/grid0.in"
 grid = Grid.grid_from_file(grid_file_name)
 print("Grid:", grid)
