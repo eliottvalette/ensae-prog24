@@ -68,6 +68,8 @@ class Grid():
                     return False
         return True
 
+
+    # faire isswapvalid
     def swap(self, cell1, cell2):
         """
         Implements the swap operation between two cells. Raises an exception if the swap is not allowed.
