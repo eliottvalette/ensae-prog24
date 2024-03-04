@@ -61,12 +61,7 @@ class Grid():
         """
         Checks is the current state of the grid is sorted and returns the answer as a boolean.
         """
-        for i in range(self.m):
-            for j in range(self.n):
-                if self.state[i][j] != (i * self.n + j) + 1:
-                    # On multiplie i par n pour passer à la ligne suivante et +1 car on commence à 1 et non pas à 0
-                    return False
-        return True
+        return (self.state==[list(range(i*self.n+1, (i+1)*self.n+1)) for i in range(self.m)])
 
 
     # faire isswapvalid
@@ -154,14 +149,33 @@ class Grid():
                     return True
         return False
     
-    def get_neighbours(self):
-        nodes=self.get_nodes()
-        neighbours=[]
-        for node_key in nodes:
-            if self.are_neighbours(self.state, nodes[node_key]) and nodes[node_key] != self.state:
-                neighbours.append(nodes[node_key])
-        print(len(neighbours))
+    def get_neighbours(self,grid):
+        nodes = self.get_nodes()
+        current_permutation = grid
+        neighbours = []
+
+        for node_key, node_permutation in nodes.items():
+            if self.are_neighbours(list(current_permutation), node_permutation):
+                neighbours.append(node_permutation)
+
         return neighbours
+    
+    def get_node_number(self, position):
+        """
+        Get the node number corresponding to the given position in the grid.
+
+        Parameters:
+        -----------
+            position (tuple): The position of the node in the grid, represented as a tuple of tuples.
+
+        Output:
+        -----------
+            int: The node number corresponding to the given position.
+        """
+        for node_number, node_position in self.get_nodes().items():
+            if node_position == position:
+                return node_number
+        raise ValueError("Node position not found in the grid.")
     
     def permu(self,n):
         """
