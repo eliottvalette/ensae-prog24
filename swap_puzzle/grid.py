@@ -181,96 +181,30 @@ class Grid():
                 return node_number
         raise ValueError("Node position not found in the grid.")
     
-    def permu(self,n):
+    def generate_graph(self):
         """
-        Generate all the possible permutations from 1 to n
+        Generate a graph from the grid.
 
-        Parameters: 
-        -----------
-        n: int
-            Length of the list.
+        Returns:
+        --------
+        Graph: The graph representing the grid.
+        """
+        graph = Graph()
 
-        Output: 
-        -------
-        perm: list[list]
-            The list of all the permutations of the initial list.
-        """
-        L = list(range(1,n+1))
-        permutations = list(permutations(L))
-        return permutations
+        # Parcourir chaque état possible de la grille
+        for node_key, node_permutation in self.get_nodes().items():
+            # Trouver les voisins valides de cet état
+            valid_neighbors = []
+            for neighbor_key, neighbor_permutation in self.get_nodes().items():
+                if self.are_neighbours(node_permutation, neighbor_permutation):
+                    valid_neighbors.append(neighbor_key)
 
-    def grid_as_tuple(self):
-        """
-        Renvoie l'état d'une grille sous la forme d'un tuple
-        """
-        T = []
-        for k in range(len(self.state)):
-            T.append(tuple(self.state[k]))
-        T = tuple(T)
-        return T
+            # Ajouter des arêtes entre le nœud actuel et ses voisins valides
+            for neighbor_key in valid_neighbors:
+                graph.add_edge(node_key, neighbor_key)
+
+        return graph
     
-    def copy(self):
-        """
-        Retourne une copie d'une grille, liée à une liste indépendante
-        """
-        return Grid(self.m,self.n,copy.deepcopy(self.state))
-
-    def all_state_grid(self):
-        """
-        Renvoie tous les états de la grilles possibles comme une liste de noeuds
-        (tuples de tuples qui correspondent à toutes les grilles possibles)
-        """
-        nodes = []
-        n=self.n*self.m
-        L = Grid.permu(n)
-        for i in L :
-            node = []
-            grid = list(i)
-            for k in range(self.m):
-                node.append(grid[self.n*k:(k+1)*self.n])
-            # Converts the node from a list of lists to a tuple of tuples
-            for k in range(len(node)):
-                node[k] = tuple(node[k])
-            node = tuple(node)
-            nodes.append(node)
-        print("nodes : " + str(nodes))
-        return nodes
-    
-    def graph_from_grid(self):
-        """
-        Renvoie le graphe à partir d'une grille,
-        c'est-à-dire tous les états de la grilles possibles (sous forme de tuples de tuples)
-        avec toutes les liaisons posssibles correspondant aux swaps possibles
-        """
-        nodes = self.all_state_grid()
-        graph_grid = Graph(nodes)
-        for grid_tuple in nodes :
-
-            # On convertit le tuple en liste
-            grid_list = []
-            for i in range(len(grid_tuple)):
-                for j in range(len(grid_tuple[i])):
-                    grid_list[i].append(grid_tuple[i][j])
-
-            # On crée la grille à partir de la liste
-            grid = Grid(len(grid_list[1]),len(grid_list[0]),grid_list)
-
-            # On fait tous les swaps horizontaux et on ajoute les edges
-            for i in range(grid.n-1):
-                for j in range(grid.m):
-                    grid2 = grid.copy()
-                    grid2.swap((j,i),(j,i+1))
-                    graph_grid.add_edge(grid.grid_as_tuple(),grid2.grid_as_tuple())
-
-            # On fait tous les swaps verticaux on ajoute les edges
-            for i in range(grid.m-1):
-                for j in range(grid.n):
-                    grid2 = grid.copy()
-                    grid2.swap((i,j),(i+1,j))
-                    graph_grid.add_edge(grid.grid_as_tuple(),grid2.grid_as_tuple())
-
-        return graph_grid
-
     @classmethod
     def grid_from_file(cls, file_name): 
         """
