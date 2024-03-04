@@ -64,7 +64,8 @@ class Grid():
         return (self.state==[list(range(i*self.n+1, (i+1)*self.n+1)) for i in range(self.m)])
 
 
-    # faire isswapvalid
+    def isswapvalid(self, i1, j1, i2, j2):
+        return (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2)==1 and j1==j2)
     def swap(self, cell1, cell2):
         """
         Implements the swap operation between two cells. Raises an exception if the swap is not allowed.
@@ -80,7 +81,7 @@ class Grid():
         i2, j2 = cell2
         
         # Verification that swap is allowed
-        if (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2)==1 and j1==j2) :
+        if self.isswapvalid(i1, j1, i2, j2) :
             # Simultaneous inversion
             self.state[i1][j1], self.state[i2][j2] = self.state[i2][j2], self.state[i1][j1]
         else :    
@@ -103,7 +104,7 @@ class Grid():
         grid_copy=copy.deepcopy(grid)
         
         # Verification that swap is allowed
-        if (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2)==1 and j1==j2) :
+        if self.isswapvalid(i1, j1, i2, j2) :
             # Simultaneous inversion
             grid_copy[i1][j1], grid_copy[i2][j2] = grid_copy[i2][j2], grid_copy[i1][j1]
             return grid_copy
@@ -130,7 +131,7 @@ class Grid():
         all_permutations = [list(row) for row in permutations(numbers)]
         list_matrix=[]
         for permutation in all_permutations:
-            current_matrix=list()
+            current_matrix=[]
             for i in range(m):
                 current_matrix.append(permutation[n*i:n*(i+1)])
             list_matrix.append((current_matrix))
@@ -156,13 +157,11 @@ class Grid():
         current_permutation = self.state
         print("current_permutation : ")
         print(current_permutation)
-        neighbours = []
-
+        neighbours = {}
         for node_key, node_permutation in nodes.items():
             node_copy = copy.deepcopy(node_permutation)
             if node_permutation !=(current_permutation) and self.are_neighbours(current_permutation, node_copy):
-                neighbours.append(node_permutation)
-
+                neighbours[node_key] = node_permutation
         return neighbours
     
     def get_node_number(self, position):
