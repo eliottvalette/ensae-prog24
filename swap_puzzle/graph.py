@@ -5,6 +5,7 @@ This is a test
 """
 
 class Graph:
+    import os
     """
     A class representing undirected graphs as adjacency lists. 
 
@@ -83,7 +84,62 @@ class Graph:
         self.nb_edges += 1
         self.edges.append((node1, node2))
 
+    
     def bfs(self, src, dst): 
+        """
+        Finds a shortest path from src to dst by BFS.  
+
+        Parameters: 
+        -----------
+        src: NodeType
+            The source node.
+        dst: NodeType
+            The destination node.
+
+        Output: 
+        -------
+        path: list[NodeType] | None
+            The shortest path from src to dst. Returns None if dst is not reachable from src
+        """ 
+
+        path = [src]
+        queue = [src]
+        all_paths = {src: [src]}
+        visited = []
+
+        while queue:
+            node = queue.pop(0)
+            if dst not in self.graph[node]:
+                for neighbor in self.graph[node]:
+                    if neighbor not in visited:
+                        queue.append(neighbor)
+                        all_paths[neighbor] = all_paths[node] + [neighbor]
+                        visited.append(neighbor)
+            else:
+                path = all_paths[node] + [dst]
+                queue = []
+            visited.append(node)
+
+        if dst in path:
+            return path
+        else:
+            return None
+        
+    def get_solution_bfs(self):
+        output_file = self.os.path.join("tests","output.txt")
+        
+        with open (output_file,"w") as f:
+            for src in self.nodes:
+                for dst in self.nodes:
+                    if src < dst:
+                        path = self.bfs(src, dst)
+                        if path:
+                            distance = len(path) - 1
+                            f.write(f" {src} {dst} {distance} {path}\n")
+                        else:
+                            f.write(f"{src} {dst} None\n")
+
+    def bfs_opti(self, src, dst): 
         """
         Finds a shortest path from src to dst by BFS.  
 
@@ -119,6 +175,20 @@ class Graph:
                 visited.add(node)    
         
         return None
+    
+    def get_solution_bfs_opti(self):
+        output_file = self.os.path.join("tests","output.txt")
+        
+        with open (output_file,"w") as f:
+            for src in self.nodes:
+                for dst in self.nodes:
+                    if src < dst:
+                        path = self.bfs_opti(src, dst)
+                        if path:
+                            distance = len(path) - 1
+                            f.write(f" {src} {dst} {distance} {path}\n")
+                        else:
+                            f.write(f"{src} {dst} None\n")
     
     
 

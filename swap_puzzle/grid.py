@@ -66,6 +66,7 @@ class Grid():
 
     def isswapvalid(self, i1, j1, i2, j2):
         return (i1==i2 and abs(j1-j2)==1) or (abs(i1-i2)==1 and j1==j2)
+    
     def swap(self, cell1, cell2):
         """
         Implements the swap operation between two cells. Raises an exception if the swap is not allowed.
@@ -155,8 +156,6 @@ class Grid():
     def get_neighbours(self):
         nodes = self.get_nodes()
         current_permutation = self.state
-        print("current_permutation : ")
-        print(current_permutation)
         neighbours = {}
         for node_key, node_permutation in nodes.items():
             node_copy = copy.deepcopy(node_permutation)
@@ -202,6 +201,8 @@ class Grid():
             # Ajouter des arêtes entre le nœud actuel et ses voisins valides
             for neighbor_key in valid_neighbors:
                 graph.add_edge(node_key, neighbor_key)
+        
+        print("graph.nodes : ",graph.nodes)
 
         return graph
     
