@@ -126,7 +126,7 @@ class Graph:
             return None
         
     def get_solution_bfs(self):
-        output_file = self.os.path.join("tests","output.txt")
+        output_file = self.os.path.join("tests","output_non_opti.txt")
         
         with open (output_file,"w") as f:
             for src in self.nodes:
@@ -177,7 +177,7 @@ class Graph:
         return None
     
     def get_solution_bfs_opti(self):
-        output_file = self.os.path.join("tests","output.txt")
+        output_file = self.os.path.join("tests","output_opti.txt")
         
         with open (output_file,"w") as f:
             for src in self.nodes:
