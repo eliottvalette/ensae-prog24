@@ -18,7 +18,6 @@ print("\n\nConversion de la grille en graphe\n")
 graph_from_grid = grid.generate_graph()
 print("Graph:", graph_from_grid)
 
-
 t1 = time.time()
 graph_from_grid.get_solution_bfs()
 t2 = time.time()
@@ -28,3 +27,6 @@ t3 = time.time()
 graph_from_grid.get_solution_bfs_opti()
 t4 = time.time()
 print("time opti :", t3-t4)
+
+
+#print(Solver.get_solution_bfs(graph_from_grid))

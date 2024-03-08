@@ -188,22 +188,18 @@ class Grid():
         --------
         Graph: The graph representing the grid.
         """
-        graph = Graph()
+        nodes=list(self.get_nodes().keys())
+        graph = Graph(nodes)
 
-        # Parcourir chaque état possible de la grille
         for node_key, node_permutation in self.get_nodes().items():
-            # Trouver les voisins valides de cet état
             valid_neighbors = []
             for neighbor_key, neighbor_permutation in self.get_nodes().items():
                 if self.are_neighbours(node_permutation, neighbor_permutation):
                     valid_neighbors.append(neighbor_key)
 
-            # Ajouter des arêtes entre le nœud actuel et ses voisins valides
             for neighbor_key in valid_neighbors:
-                graph.add_edge(node_key, neighbor_key)
-        
-        print("graph.nodes : ",graph.nodes)
-
+                if (neighbor_key,node_key) not in graph.edges:
+                    graph.add_edge(node_key, neighbor_key)
         return graph
     
     @classmethod
@@ -233,37 +229,3 @@ class Grid():
                 initial_state[i_line] = line_state
             grid = Grid(m, n, initial_state)
         return grid
-    
-    def adjacent_grids(self):
-        
-        """
-        Generate all possible grids resulting from a swap operated on the initial grid
-
-        Parameters: 
-        -----------
-        grid: Grid
-            The initial grid
-
-        Output: 
-        -------
-        grid_lst: list[tuple]
-            The list of all possible grids (as tuple of tuples) resulting from a swap operated on the initial grid and the corresponding swap
-        """
-
-        grid_lst = []
-
-        # On fait tous les swaps horizontaux et on ajoute les edges
-        for i in range(self.n-1):
-            for j in range(self.m):
-                other = self.copy()
-                other.swap((j,i),(j,i+1))
-                grid_lst.append((other.grid_as_tuple(),((j,i),(j,i+1))))
-
-        # On fait tous les swaps verticaux on ajoute les edges
-        for i in range(self.m-1):
-            for j in range(self.n):
-                other = self.copy()
-                other.swap((i,j),(i+1,j))
-                grid_lst.append((other.grid_as_tuple(),((i,j),(i+1,j))))
-        
-        return grid_lst

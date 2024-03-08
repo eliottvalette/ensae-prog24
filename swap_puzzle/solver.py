@@ -1,8 +1,10 @@
 # This is the solver module. It contains the Solver class and its associated methods.
 from grid import Grid
-
+from graph import Graph
 sequence_swaps=[] #global variable
 class Solver(): 
+    import os
+    
     def __init__(self, m, n, initial_state):
         self.grid = Grid(m, n, initial_state)
         self.n = n
@@ -60,24 +62,30 @@ class Solver():
             self.drag_x(x)
         return sequence_swaps
     
-    # def bfs_opti(self, src, dst):
-    #     visited = set()
-    #     queue = [[src]]
+    def get_solution_bfs(self,graph:Graph):
+        output_file = self.os.path.join("tests","output_non_opti.txt")
         
-    #     while queue:
-    #         node, path = queue.pop(-1)
-    #         if node == dst:
-    #             return path
-    #         if node not in visited:
-    #             visited.add(node)
-    #             # Générer les voisins du nœud actuel
-    #             neighbours = list(self.grid.get_neighbours(node).values())
-    #             for neighbour in neighbours:
-    #                 queue.append((neighbour, path + [neighbour]))
-    #     return None
-    
+        with open (output_file,"w") as f:
+            for src in graph.nodes:
+                for dst in graph.nodes:
+                    if src < dst:
+                        path = graph.bfs(src, dst)
+                        if path:
+                            distance = len(path) - 1
+                            f.write(f" {src} {dst} {distance} {path}\n")
+                        else:
+                            f.write(f"{src} {dst} None\n")
 
-# grid = Grid.grid_from_file("input/grid4.in")
-# solver = Solver(grid.m, grid.n, grid.state)
-# print(solver.get_solution())
-
+    def get_solution_bfs_opti(self):
+        output_file = graph.os.path.join("tests","output_opti.txt")
+        
+        with open (output_file,"w") as f:
+            for src in graph.nodes:
+                for dst in graph.nodes:
+                    if src < dst:
+                        path = graph.bfs_opti(src, dst)
+                        if path:
+                            distance = len(path) - 1
+                            f.write(f" {src} {dst} {distance} {path}\n")
+                        else:
+                            f.write(f"{src} {dst} None\n")
