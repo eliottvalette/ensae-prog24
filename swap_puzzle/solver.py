@@ -16,11 +16,10 @@ class Solver():
 
         Parameters: 
         -----------
-        grid
+        grid : Grid
             The grid.
         x: int
             An integer from the grid.
-
         Output: 
         -------
         (i,j): tuple[int]
@@ -31,11 +30,23 @@ class Solver():
                 if grid[i][j] == x: 
                     return (i, j)
     
-    def drag_x(self, x):
-        (i, j) = self.find_coordinates_x(self.grid.state, x) # (i,j) coordonnée de x dans la matrice non ordonnée
+    def drag_x(self, x:int):
+        """
+        Drag the integer x to it's correct place, without disturbing the precedent drags
+
+        Parameters: 
+        -----------
+        x: int
+            An integer from the grid.
+        Output: 
+        -------
+        (i,j): tuple[int]
+            The integer's cell coordenates.
+        """
+        (i, j) = self.find_coordinates_x(self.grid.state, x) # coordinates (i,j) of x in the non_sorted grid
         correct_matrix = Grid(self.m, self.n) # Without initial state in order to get a sorted matrix
         i_target, j_target = self.find_coordinates_x(correct_matrix.state, x)
-        while j != j_target: # On se place dans la meme colonne que la place objectif
+        while j != j_target: # drag x to the correct column
             if j_target < j:
                 for k in range(j - j_target):
                     sequence_swaps.append(((i, j), (i, j - 1)))
@@ -46,13 +57,13 @@ class Solver():
                     sequence_swaps.append(((i, j), (i, j + 1)))
                     self.grid.swap((i, j), (i, j + 1))
                     j = j + 1
-        while i != i_target: # On remonte dorit vers l'objectif pour ne pas déranger ce qui a été fait
+        while i != i_target: # drag up x to the correct line, and thus the correct coordinate
             for k in range(i - i_target):
                 sequence_swaps.append(((i, j), (i - 1, j)))
                 self.grid.swap((i, j), (i - 1, j))
                 i = i - 1
 
-        current_state = Grid(self.m, self.n, self.grid.state)
+        current_state = Grid(self.m, self.n, self.grid.state) # update current state
         if current_state != correct_matrix:
             print(f"Current state after dragging {x}:")
             print(current_state)
