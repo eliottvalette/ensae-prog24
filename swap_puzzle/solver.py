@@ -82,7 +82,7 @@ class Solver():
                         path = graph.bfs(src, dst)
                         if path:
                             distance = len(path) - 1
-                            f.write(f" {src} {dst} {distance} {path}\n")
+                            f.write(f"{src} {dst} {distance} {path}\n")
                         else:
                             f.write(f"{src} {dst} None\n")
     @classmethod
@@ -94,6 +94,6 @@ class Solver():
                         path = graph.bfs_opti(src, dst)
                         if path:
                             distance = len(path) - 1
-                            f.write(f" {src} {dst} {distance} {path}\n")
+                            f.write(f"{src} {dst} {distance} {path}\n")
                         else:
                             f.write(f"{src} {dst} None\n")

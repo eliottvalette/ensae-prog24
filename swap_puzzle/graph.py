@@ -102,40 +102,26 @@ class Graph:
 
         path = [src]
         queue = [src]
-        all_paths = {src: [src]}
-        visited = []
+        all_paths = {src: [src]}  # Dictionary to store all discovered paths
+        visited = []  # List to store visited nodes
 
         while queue:
             node = queue.pop(0)
-            if dst not in self.graph[node]:
+            if dst not in self.graph[node]: # If the destination is not found among neighbors
                 for neighbor in self.graph[node]:
-                    if neighbor not in visited:
+                    if neighbor not in visited: # Explore unvisited neighbors
                         queue.append(neighbor)
-                        all_paths[neighbor] = all_paths[node] + [neighbor]
+                        all_paths[neighbor] = all_paths[node] + [neighbor] # Update the path
                         visited.append(neighbor)
-            else:
+            else: # If the destination is found
                 path = all_paths[node] + [dst]
-                queue = []
-            visited.append(node)
+                queue = [] # Stop the exploration
+            visited.append(node) # Mark the current node as visited
 
-        if dst in path:
+        if dst in path: # If the destination node is reached
             return path
         else:
-            return None
-        
-    def get_solution_bfs(self):
-        output_file = self.os.path.join("tests","output_non_opti.txt")
-        
-        with open (output_file,"w") as f:
-            for src in self.nodes:
-                for dst in self.nodes:
-                    if src < dst:
-                        path = self.bfs(src, dst)
-                        if path:
-                            distance = len(path) - 1
-                            f.write(f" {src} {dst} {distance} {path}\n")
-                        else:
-                            f.write(f"{src} {dst} None\n")
+            return None # The destination is not reachable
 
     def bfs_opti(self, src, dst): 
         """
@@ -154,42 +140,26 @@ class Graph:
             The shortest path from src to dst. Returns None if dst is not reachable from src
         """ 
 
-        visited = set()
-        queue = [[src]]
-        
-        while queue:
-            path = queue.pop(0)
-            node = path[-1]
-            
-            if node == dst:
-                return path
-            
-            if node not in visited:
-                neighbors = self.graph[node]
-                for neighbor in neighbors:
-                    new_path = list(path)
-                    new_path.append(neighbor)
-                    queue.append(new_path)
-                visited.add(node)    
-        
-        return None
-    
-    def get_solution_bfs_opti(self):
-        output_file = self.os.path.join("tests","output_opti.txt")
-        
-        with open (output_file,"w") as f:
-            for src in self.nodes:
-                for dst in self.nodes:
-                    if src < dst:
-                        path = self.bfs_opti(src, dst)
-                        if path:
-                            distance = len(path) - 1
-                            f.write(f" {src} {dst} {distance} {path}\n")
-                        else:
-                            f.write(f"{src} {dst} None\n")
-    
-    
+        visited = set()  # Use a set for efficient membership testing
+        queue = [[src]]  # Initialize the queue with the source node as the starting path
 
+        while queue:
+            path = queue.pop(0)  # Take the first path from the queue
+            node = path[-1]  # Get the last node from the path
+
+            if node == dst:  # If the destination node is found
+                return path
+
+            if node not in visited:  # If the node has not been visited yet
+                neighbors = self.graph[node]  # Get the neighbors of the current node
+                for neighbor in neighbors:
+                    new_path = list(path)  # Create a new path by appending the neighbor to the current path
+                    new_path.append(neighbor)
+                    queue.append(new_path)  # Add the new path to the queue
+                visited.add(node)  # Mark the current node as visited
+
+        return None  # The destination node is not reached
+  
     @classmethod
     def graph_from_file(cls, file_name):
         """

@@ -62,7 +62,7 @@ class Grid():
         """
         Checks is the current state of the grid is sorted and returns the answer as a boolean.
         """
-        return (self.state==[list(range(i*self.n+1, (i+1)*self.n+1)) for i in range(self.m)])
+        return (self.state==Grid(self.m,self.n).state)
 
 
     def isswapvalid(self, i1, j1, i2, j2):
