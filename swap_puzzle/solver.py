@@ -62,10 +62,9 @@ class Solver():
             self.drag_x(x)
         return sequence_swaps
     
-    def get_solution_bfs(self,graph:Graph):
-        output_file = self.os.path.join("tests","output_non_opti.txt")
-        
-        with open (output_file,"w") as f:
+    @classmethod
+    def get_solution_bfs(cls,graph:Graph):    
+        with open ("tests/output_non_opti.txt","w") as f:
             for src in graph.nodes:
                 for dst in graph.nodes:
                     if src < dst:
@@ -75,11 +74,9 @@ class Solver():
                             f.write(f" {src} {dst} {distance} {path}\n")
                         else:
                             f.write(f"{src} {dst} None\n")
-
-    def get_solution_bfs_opti(self):
-        output_file = graph.os.path.join("tests","output_opti.txt")
-        
-        with open (output_file,"w") as f:
+    @classmethod
+    def get_solution_bfs_opti(cls,graph:Graph):        
+        with open ("tests/output_opti.txt","w") as f:
             for src in graph.nodes:
                 for dst in graph.nodes:
                     if src < dst:
