@@ -16,9 +16,10 @@ class Test_BFS(unittest.TestCase):
         with open("tests/bfs.txt", "r") as file:
             resultat_observe = file.read()
 
-        with open("tests/grid1_verified_output.txt", "r") as file:
+        with open("tests/grid0_verified_output.txt", "r") as file:
             resultat_attendu = file.read()
         
+        self.maxDiff = None # See all mistakes
         self.assertEqual(resultat_observe, resultat_attendu)
 if __name__ == '__main__':
     unittest.main()

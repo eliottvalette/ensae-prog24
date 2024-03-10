@@ -110,7 +110,7 @@ class Grid():
         i1, j1 = cell1
         i2, j2 = cell2
 
-        grid_copy=copy.copy(grid)
+        grid_copy=copy.deepcopy(grid)
         
         # Verification that swap is allowed
         if self.is_swap_valid(i1, j1, i2, j2) :
@@ -183,7 +183,7 @@ class Grid():
         current_permutation = self.state
         neighbours = {}
         for node_key, node_permutation in nodes.items(): # (int, grid.state)
-            node_copy = copy.copy(node_permutation) # prevent modifying node_permutation
+            node_copy = copy.deepcopy(node_permutation) # prevent modifying node_permutation
             if node_permutation !=(current_permutation) and self.are_neighbours(current_permutation, node_copy):
                 neighbours[node_key] = node_permutation
         return neighbours
@@ -349,22 +349,24 @@ class Grid():
         while priority_queue:
             current_cost, current_node, current_path = heapq.heappop(priority_queue)
 
-            if current_node == goal: # If the current node is the goal state, return the path
+            if current_node == goal:  # If the current node is the goal state, return the path
                 return current_path + [current_node]
 
-            if current_node not in visited: # Avoid visiting the same node twice
+            if current_node not in visited:  # Avoid visiting the same node twice
                 visited.add(current_node)
                 current_node_matrix = Grid.from_tuple_to_matrix(current_node, m, n)
                 current_neighbours_dict = Grid(m, n, current_node_matrix).get_neighbours()
 
                 for neighbor_key in current_neighbours_dict.keys():
                     neighbor_state = Grid.from_grid_to_tuple(current_neighbours_dict[neighbor_key])
-                    new_cost = current_cost + 1 # Cost of reaching the neighbor from the current node
+                    new_cost = current_cost + 1  # Cost of reaching the neighbor from the current node
                     heuristic_value = self.manhattan_distance(current_neighbours_dict[neighbor_key])
-                    priority = new_cost + heuristic_value # Total priority for the neighbor
-                    heapq.heappush(priority_queue, (priority, neighbor_state, current_path + [current_node]))
+                    priority = new_cost + heuristic_value  # Total priority for the neighbor
+                    # Update the path for each neighbor
+                    new_path = current_path + [current_node]  # Update the path for the current neighbor
+                    heapq.heappush(priority_queue, (priority, neighbor_state, new_path))
 
-        return None #The goal isn't reached
+        return None  # The goal isn't reached
 
     def optimized_solver_astar(self, grid, m, n):
             """
@@ -374,7 +376,6 @@ class Grid():
             -----------
             grid: Grid
                 The instance of the Grid class representing the puzzle grid.
-            
             m: int
                 Number of grid lines.
             n: int

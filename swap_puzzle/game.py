@@ -14,7 +14,7 @@ from solver import Solver
 pygame.init()
 
 # Initialize variables
-lignes,colonnes = 2 , 3
+lignes,colonnes = 2 , 2
 not_too_big = ((lignes+colonnes)<7)
 
 WINDOW_SIZE = (1200, 750)
@@ -24,7 +24,9 @@ pygame.display.set_caption("Grid Swap Game")
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (200, 200, 200)
+GREEN = (200,214,191)
 CREAM=(249,249,200)
+LIGHT_CREAM=(249,249,230)
 
 GRID_SIZE = (lignes,colonnes) 
 
@@ -36,9 +38,9 @@ random.shuffle(numbers)
 grid = Grid(lignes,colonnes,[numbers[i * GRID_SIZE[1]:(i + 1) * GRID_SIZE[1]] for i in range(GRID_SIZE[0])])
 
 if not_too_big:
-    graph_from_grid = grid.generate_graph()
-    current_state_key = grid.get_node_number(grid.state)
-    solution = Solver.bfs_for_given(graph_from_grid,current_state_key,lignes,colonnes)
+    solution = grid.optimized_solver_astar(grid,grid.m,grid.n)
+    print("\nShortest path using A* method: ",solution)
+    len_solution = len(solution)- 1
 
 # Run the game loop
 running = True
@@ -70,9 +72,24 @@ while running:
                         grid.state[selected_tile[0]][selected_tile[1]], grid.state[row][col])
                     swap_count += 1 # Count each swap
                 selected_tile = None
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                # Reset the grid with a new random arrangement of numbers
+                numbers = list(range(1, GRID_SIZE[0] * GRID_SIZE[1] + 1))
+                random.shuffle(numbers)
+                grid = Grid(lignes,colonnes,[numbers[i * GRID_SIZE[1]:(i + 1) * GRID_SIZE[1]] for i in range(GRID_SIZE[0])])
+                swap_count = 0  # Reset the swap count
+                if not_too_big:
+                    solution = grid.optimized_solver_astar(grid,grid.m,grid.n)
+                    print("\nShortest path using A* method: ",solution)
+                    len_solution = len(solution)- 1
+            elif event.key == pygame.K_t:
+                grid = Grid(lignes,colonnes,[numbers[i * GRID_SIZE[1]:(i + 1) * GRID_SIZE[1]] for i in range(GRID_SIZE[0])])# same grid
+                swap_count = 0 # Reset the swap count
+
 
     # Draw the grid
-    screen.fill(WHITE)
+    screen.fill(LIGHT_CREAM)
     for i in range(GRID_SIZE[0]):
         for j in range(GRID_SIZE[1]):
             rect = pygame.Rect(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE)
@@ -87,12 +104,12 @@ while running:
     # Check if the grid is sorted in ascending order
     sorted_grid = [item for row in grid.state for item in row]
     if sorted_grid == list(range(1, GRID_SIZE[0] * GRID_SIZE[1] + 1)):
-        screen.fill(WHITE)
+        screen.fill(GREEN)
         # Display congratulations message with the number of swaps made
         congrats_font = pygame.font.Font(None, 36)
         if not_too_big :
             congrats_bfs_text = congrats_font.render(f"Congratulations! You beat the game in {swap_count} swaps!", True, BLACK)
-            however_text =congrats_font.render(f"However it could have been beaten in {solution}", True, BLACK)
+            however_text =congrats_font.render(f"However it could have been beaten in {len_solution}", True, BLACK)
             congrats_bfs_rect = congrats_bfs_text.get_rect(center=(WINDOW_SIZE[0] // 2, WINDOW_SIZE[1] // 2))
             however_rect = congrats_bfs_text.get_rect(center=(WINDOW_SIZE[0] // 2, WINDOW_SIZE[1] // 2 + 2*36))
             screen.blit(congrats_bfs_text, congrats_bfs_rect)
@@ -103,7 +120,6 @@ while running:
             congrats_rect = congrats_text.get_rect(center=(WINDOW_SIZE[0] // 2, WINDOW_SIZE[1] // 2))
             screen.blit(congrats_text, congrats_rect)
             pygame.display.flip()
-
+     
     pygame.display.flip()
-
 pygame.quit()
