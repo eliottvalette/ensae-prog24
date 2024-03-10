@@ -105,6 +105,9 @@ class Graph:
         all_paths = {src: [src]}  # Dictionary to store all discovered paths
         visited = []  # List to store visited nodes
 
+        if src==dst:
+            return path
+
         while queue:
             node = queue.pop(0)
             if dst not in self.graph[node]: # If the destination is not found among neighbors

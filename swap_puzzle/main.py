@@ -43,7 +43,6 @@ print("Graph:", graph_from_grid)
 
 print("Test des méthodes du bfs : l'output dans le dossier test")
 Solver.get_solution_bfs(graph_from_grid)
-Solver.get_solution_bfs_opti(graph_from_grid)
 
-print("\nTest des méthodes de la methode A*")
-print("\nShortest path using A* method: ", grid.optimized_solver_astar(grid,grid.m,grid.n))
+# print("\nTest des méthodes de la methode A*")
+# print("\nShortest path using A* method: ", grid.optimized_solver_astar(grid,grid.m,grid.n))

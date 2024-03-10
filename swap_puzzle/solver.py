@@ -86,5 +86,10 @@ class Solver():
                             distance = len(path) - 1
                             f.write(f"{src} {dst} {distance} {path}\n")
                         else:
-                            f.write(f"{src} {dst} None\n")     
+                            f.write(f"{src} {dst} None\n")
+    @classmethod
+    def bfs_for_given(cls,graph:Graph,src,row,columns):
+        dst = Grid.get_node_number(Grid(row,columns), Grid(row,columns).state)
+        path = graph.bfs(src, dst)
+        return len(path)-1
         

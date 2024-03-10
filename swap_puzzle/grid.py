@@ -101,7 +101,7 @@ class Grid():
 
         Parameters: 
         -----------
-        grid : Grid
+        grid : Grid.state
 
         cell1, cell2: tuple[int]
             The two cells to swap. They must be in the format (i, j) where i is the line and j the column number of the cell.
@@ -110,7 +110,7 @@ class Grid():
         i1, j1 = cell1
         i2, j2 = cell2
 
-        grid_copy=copy.deepcopy(grid)
+        grid_copy=copy.copy(grid)
         
         # Verification that swap is allowed
         if self.is_swap_valid(i1, j1, i2, j2) :
@@ -160,20 +160,20 @@ class Grid():
         
         Parameters: 
         -----------
-        initial,friend: grid.state
+        initial, friend: grid.state
 
         Returns boolean
         """
-        for i in range(self.m): # explore all vertical swaps
+        for i in range(self.m): # explore all horizontal swaps
             for j in range(self.n-1):
                 if initial==self.generate_swaped(friend,(i,j),(i,j+1)):
                     return True
           
-        for i in range(self.m-1):# explore all horizontal swaps
+        for i in range(self.m-1):# explore all vertical swaps
             for j in range(self.n):
                 if initial==self.generate_swaped(friend, (i,j),(i+1,j)):
                     return True
-        return False #inital and friend are equal or separated by more than one swap
+        return False # Inital and Friend are equal or separated by more than one swap
     
     def get_neighbours(self):
         """
