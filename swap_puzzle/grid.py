@@ -6,6 +6,7 @@ import random
 import numpy as np
 import copy
 from itertools import permutations
+import matplotlib.pyplot as plt
 from graph import Graph
 import heapq
 
@@ -133,6 +134,35 @@ class Grid():
         for swap_pair in cell_pair_list:
             self.swap(swap_pair[0], swap_pair[1])
     
+    def plot_grid(self):
+        """
+        Plots the grid with numbers in each cell, white background, black borders between cells, 
+        and a title "grid".
+
+        The implementation involves creating a figure and axis object, setting up the gridlines,
+        and iterating over each cell to add rectangles and numbers.
+        """
+
+        _ , ax = plt.subplots() # _ is unused and ax stance for the axes
+        # Settings axes
+        ax.set_aspect('equal')
+        ax.set_xticks(np.arange(-0.5, self.n, 1), minor=True)
+        ax.set_yticks(np.arange(-0.5, self.m, 1), minor=True)
+        ax.grid(which='minor', color='black', linestyle='-', linewidth=2)
+
+        # Loop over each row and each column of the grid
+        for i in range(self.m):
+            for j in range(self.n):
+                # Add a white rectangle for each cell with a black border
+                rect = plt.Rectangle((j-0.5, self.m - i - 1 - 0.5), 1, 1, facecolor='white', edgecolor='black')
+                ax.add_patch(rect) # Add the rectangle to the axis
+                ax.text(j, self.m - i - 1, str(self.state[i][j]), ha='center', va='center', color='black')  # Add black number in the cell at the center
+
+
+        ax.set_title('Grid')  # Add title
+        plt.axis('off')  # Hide axis
+        plt.show()
+
     def get_nodes(self):
         """
         According to the shape of self, returns a dict whose keys or intergers from 1 to fact(m*n).
