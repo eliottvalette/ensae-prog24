@@ -41,8 +41,8 @@ print(f"\nNeighbors of current state {current_state_key}: {list(grid.get_neighbo
 print("\nConversion de la grille en graphe")
 print("Graph:", graph_from_grid)
 
-#print("Test des méthodes du bfs : \nVeuillez trouver l'output dans le dossier tests ")
-#Solver.get_solution_bfs(graph_from_grid)
+print("Test des méthodes du bfs : \nVeuillez trouver l'output dans le dossier tests ")
+Solver.get_solution_bfs(graph_from_grid)
 
 print("\nTest des méthodes de la methode A*")
 print("\nShortest path using A* method: ", grid.optimized_solver_astar(grid,grid.m,grid.n))
