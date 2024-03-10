@@ -6,7 +6,7 @@ from solver import Solver
 import time 
 
 # Initialisation des variables
-grid_file_name = "input/grid0.in"
+grid_file_name = "input/grid1.in"
 grid = Grid.grid_from_file(grid_file_name)
 sorted_grid = Grid(grid.m,grid.n).state
 current_state_key = grid.get_node_number(grid.state)
@@ -41,7 +41,7 @@ print(f"\nNeighbors of current state {current_state_key}: {list(grid.get_neighbo
 print("\nConversion de la grille en graphe")
 print("Graph:", graph_from_grid)
 
-print("\n\nTest des méthodes du bfs : l'output dans le dossier test")
+print("Test des méthodes du bfs : l'output dans le dossier test")
 Solver.get_solution_bfs(graph_from_grid)
 Solver.get_solution_bfs_opti(graph_from_grid)
 

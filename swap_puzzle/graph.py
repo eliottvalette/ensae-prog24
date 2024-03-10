@@ -122,43 +122,6 @@ class Graph:
             return path
         else:
             return None # The destination is not reachable
-
-    def bfs_opti(self, src, dst): 
-        """
-        Finds a shortest path from src to dst by BFS.  
-
-        Parameters: 
-        -----------
-        src: NodeType
-            The source node.
-        dst: NodeType
-            The destination node.
-
-        Output: 
-        -------
-        path: list[NodeType] | None
-            The shortest path from src to dst. Returns None if dst is not reachable from src
-        """ 
-
-        visited = set()  # Use a set for efficient membership testing
-        queue = [[src]]  # Initialize the queue with the source node as the starting path
-
-        while queue:
-            path = queue.pop(0)  # Take the first path from the queue
-            node = path[-1]  # Get the last node from the path
-
-            if node == dst:  # If the destination node is found
-                return path
-
-            if node not in visited:  # If the node has not been visited yet
-                neighbors = self.graph[node]  # Get the neighbors of the current node
-                for neighbor in neighbors:
-                    new_path = list(path)  # Create a new path by appending the neighbor to the current path
-                    new_path.append(neighbor)
-                    queue.append(new_path)  # Add the new path to the queue
-                visited.add(node)  # Mark the current node as visited
-
-        return None  # The destination node is not reached
   
     @classmethod
     def graph_from_file(cls, file_name):

@@ -65,7 +65,7 @@ class Grid():
         return (self.state==Grid(self.m,self.n).state)
 
 
-    def isswapvalid(self, i1, j1, i2, j2):
+    def is_swap_valid(self, i1, j1, i2, j2):
         """
         Parameters: 
         -----------
@@ -88,7 +88,7 @@ class Grid():
         i2, j2 = cell2
         
         # Verification that swap is allowed
-        if self.isswapvalid(i1, j1, i2, j2):
+        if self.is_swap_valid(i1, j1, i2, j2):
             # Simultaneous inversion
             self.state[i1][j1], self.state[i2][j2] = self.state[i2][j2], self.state[i1][j1]
         else :    
@@ -113,7 +113,7 @@ class Grid():
         grid_copy=copy.deepcopy(grid)
         
         # Verification that swap is allowed
-        if self.isswapvalid(i1, j1, i2, j2) :
+        if self.is_swap_valid(i1, j1, i2, j2) :
             # Simultaneous inversion
             grid_copy[i1][j1], grid_copy[i2][j2] = grid_copy[i2][j2], grid_copy[i1][j1]
             return grid_copy
@@ -183,7 +183,7 @@ class Grid():
         current_permutation = self.state
         neighbours = {}
         for node_key, node_permutation in nodes.items(): # (int, grid.state)
-            node_copy = copy.deepcopy(node_permutation) # prevent modifying node_permutation
+            node_copy = copy.copy(node_permutation) # prevent modifying node_permutation
             if node_permutation !=(current_permutation) and self.are_neighbours(current_permutation, node_copy):
                 neighbours[node_key] = node_permutation
         return neighbours
@@ -227,7 +227,7 @@ class Grid():
                 if (neighbor_key,node_key) not in graph.edges: # Prevent duplicates of edges (a,b) and (b,a)
                     graph.add_edge(node_key, neighbor_key)
         return graph
-    
+
     @staticmethod
     def from_grid_to_tuple(grid):
         """
