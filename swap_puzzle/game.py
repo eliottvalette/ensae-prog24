@@ -109,7 +109,7 @@ while running:
         congrats_font = pygame.font.Font(None, 36)
         if not_too_big :
             congrats_bfs_text = congrats_font.render(f"Congratulations! You beat the game in {swap_count} swaps!", True, BLACK)
-            however_text =congrats_font.render(f"However it could have been beaten in {len_solution}", True, BLACK)
+            however_text =congrats_font.render(f"However it could have been beaten in {len_solution} swaps...", True, BLACK)
             congrats_bfs_rect = congrats_bfs_text.get_rect(center=(WINDOW_SIZE[0] // 2, WINDOW_SIZE[1] // 2))
             however_rect = congrats_bfs_text.get_rect(center=(WINDOW_SIZE[0] // 2, WINDOW_SIZE[1] // 2 + 2*36))
             screen.blit(congrats_bfs_text, congrats_bfs_rect)
