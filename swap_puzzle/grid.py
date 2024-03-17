@@ -274,20 +274,6 @@ class Grid():
         return tuple(tupled_grid)
     
     @staticmethod
-    def from_grid_to_tuple_of_tuple(grid):
-        """
-        Parameters:
-        -----------
-            grid : Grid
-
-        Returns tuple(tuple(int))
-        """
-        tupled_grid = []
-        for line in grid: # explicit
-            tupled_grid = tuple(line)
-        return tupled_grid
-    
-    @staticmethod
     def from_tuple_to_matrix(tuple, m, n):
         """
         Parameters:
